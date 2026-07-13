@@ -1,3 +1,5 @@
+import rivaMascot from '../assets/riva-mascot.png';
+
 interface StartupScreenProps {
   error?: string;
 }
@@ -5,9 +7,7 @@ interface StartupScreenProps {
 export function StartupScreen({ error }: StartupScreenProps) {
   return (
     <div className="startup-screen" data-testid="startup-screen">
-      <div className="brand-mark" style={{ width: 52, height: 52, borderRadius: 16, fontSize: 20 }}>
-        R
-      </div>
+      <img src={rivaMascot} alt="RIVA — Nova Tech Ltd" className="startup-mascot" draggable={false} />
       <h1>RIVA AI</h1>
       {error ? (
         <>
