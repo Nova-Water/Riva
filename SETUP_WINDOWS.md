@@ -1,6 +1,41 @@
 # RIVA AI — Windows Setup Guide
 
-Step-by-step instructions to run RIVA AI on Windows 10/11 for development.
+There are two ways to run RIVA AI:
+
+- **Using the installer** (recommended for most people — no programming needed). See "Using the installed app" just below.
+- **From source, for development** (requires Node.js and Python). See "Developer setup" further down.
+
+---
+
+## Using the installed app (no programming needed)
+
+1. **Install RIVA AI.** Run the `RIVA AI-Setup-*.exe` installer and follow the prompts. Launch RIVA AI from the Start Menu or desktop shortcut. RIVA opens and works right away in text-only mode.
+2. **Add your keys so RIVA can think and talk.** RIVA creates a settings file the first time it runs, at:
+
+   ```
+   %APPDATA%\RIVA AI\.env
+   ```
+
+   To open it: press **Windows + R**, paste `%APPDATA%\RIVA AI`, press Enter. Right-click the file named `.env` → **Open with** → **Notepad**.
+3. **Fill in these lines** (leave the rest as-is), then **Save**:
+
+   ```
+   LLM_API_KEY=your-language-model-key
+   LLM_MODEL=your-model-name
+   VOICE_API_KEY=your-elevenlabs-key
+   VOICE_ID=your-voice-id
+   ```
+
+   (Voice lines are optional — leave them blank to stay in text-only mode.)
+4. **Restart RIVA AI** (close it fully and open it again). The status bar should now show "LLM Connected" and, if you added voice keys, "Voice Connected".
+
+That's it — you're done. The rest of this document is only needed if you want to run RIVA from source code.
+
+---
+
+## Developer setup
+
+Step-by-step instructions to run RIVA AI on Windows 10/11 from source.
 
 ## 1. Install Node.js
 

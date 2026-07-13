@@ -20,19 +20,6 @@ def _project_root() -> Path:
     return Path(__file__).resolve().parents[2]
 
 
-def _load_env() -> None:
-    env_path = _project_root() / ".env"
-    if env_path.exists():
-        load_dotenv(env_path, override=False)
-    else:
-        # Fall back to whatever is already in the process environment.
-        # A missing .env is a valid (if degraded) state, not a fatal error.
-        pass
-
-
-_load_env()
-
-
 def _default_data_directory() -> Path:
     """Windows-appropriate application data directory, with sane fallbacks."""
     if sys.platform == "win32":
@@ -43,6 +30,38 @@ def _default_data_directory() -> Path:
     xdg = os.environ.get("XDG_DATA_HOME")
     base = Path(xdg) if xdg else Path.home() / ".local" / "share"
     return base / "riva-ai"
+
+
+def _resolved_data_directory() -> Path:
+    override = os.environ.get("RIVA_DATA_DIRECTORY", "").strip()
+    return Path(override) if override else _default_data_directory()
+
+
+def _load_env() -> None:
+    """Load settings from `.env`, checking the user data directory first.
+
+    The installed Windows app runs a PyInstaller-packaged backend, so the
+    source-tree `.env` next to the project is not present. The reliable,
+    user-findable place to drop configuration for the installed app is the
+    data directory (e.g. `%APPDATA%\\RIVA AI\\.env`), so that is checked
+    first. A source-tree `.env` is still honoured for local development.
+    Existing environment variables always win (override=False).
+    """
+    candidates = [
+        _resolved_data_directory() / ".env",
+        _project_root() / ".env",
+    ]
+    for env_path in candidates:
+        try:
+            if env_path.exists():
+                load_dotenv(env_path, override=False)
+        except OSError:
+            # A missing/unreadable .env is a valid (if degraded) state,
+            # not a fatal error — fall back to the process environment.
+            continue
+
+
+_load_env()
 
 
 def _split_paths(value: str) -> List[str]:
@@ -164,4 +183,39 @@ def get_settings() -> Settings:
     settings.data_directory.mkdir(parents=True, exist_ok=True)
     settings.logs_directory.mkdir(parents=True, exist_ok=True)
     settings.documents_output_directory.mkdir(parents=True, exist_ok=True)
+    _ensure_env_template(settings.data_directory)
     return settings
+
+
+_ENV_TEMPLATE = """# RIVA AI settings.
+# Fill in the values below, save this file, then restart RIVA AI.
+# Lines starting with # are comments and are ignored.
+
+# --- Language model (required for RIVA to converse) ---
+LLM_PROVIDER=openai_compatible
+LLM_API_KEY=
+LLM_MODEL=
+# Leave LLM_BASE_URL blank to use the provider's default endpoint.
+LLM_BASE_URL=
+
+# --- Voice (optional; leave blank to run in text-only mode) ---
+TTS_PROVIDER=elevenlabs
+VOICE_API_KEY=
+VOICE_ID=
+VOICE_MODEL_ID=
+VOICE_BASE_URL=
+"""
+
+
+def _ensure_env_template(data_directory: Path) -> None:
+    """Write a ready-to-edit `.env` template into the data directory on first
+    run, so a non-technical user of the installed app has an obvious file to
+    fill in. Never overwrites an existing `.env`.
+    """
+    env_path = data_directory / ".env"
+    try:
+        if not env_path.exists():
+            env_path.write_text(_ENV_TEMPLATE, encoding="utf-8")
+    except OSError:
+        # Best-effort convenience only; failure here must not break startup.
+        pass
