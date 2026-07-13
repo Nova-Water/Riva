@@ -1,0 +1,41 @@
+# Environment
+.env
+*.env.local
+
+# Python
+backend/.venv/
+backend/venv/
+**/__pycache__/
+*.pyc
+backend/dist/
+backend/build/
+*.spec.bak
+backend/app.egg-info/
+.pytest_cache/
+
+# Node / Electron
+desktop/node_modules/
+desktop/dist/
+desktop/dist-electron/
+desktop/release/
+desktop/.vite/
+
+# Data / logs
+data/
+*.db
+*.sqlite
+*.sqlite3
+logs/
+*.log
+
+# STT models
+backend/models/
+whisper-cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
