@@ -1,0 +1,59 @@
+name: Build Windows Installer
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - claude/riva-ai-windows-assistant-e17lwf
+    paths:
+      - 'backend/**'
+      - 'desktop/**'
+      - '.github/workflows/build-windows.yml'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: |
+          python -m venv .venv
+          .venv\Scripts\pip install --upgrade pip
+          .venv\Scripts\pip install -r requirements.txt
+
+      - name: Install Playwright Chromium
+        working-directory: backend
+        run: .venv\Scripts\playwright install chromium
+        continue-on-error: true
+
+      - name: Build backend executable (PyInstaller)
+        working-directory: backend
+        run: .venv\Scripts\python build_backend.py
+
+      - name: Install desktop dependencies
+        working-directory: desktop
+        run: npm install
+
+      - name: Build and package Windows installer
+        working-directory: desktop
+        run: npm run package:win
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RIVA-AI-Windows-Installer
+          path: desktop/release/*.exe
+          if-no-files-found: error
