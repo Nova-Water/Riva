@@ -1,12 +1,6 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'node:path';
-import { startBackend, stopBackend } from './backend-manager';
-
-function defaultLogsDirectory(): string {
-  // Mirrors backend/app/config.py's default data directory when
-  // RIVA_DATA_DIRECTORY is not set.
-  return path.join(app.getPath('appData'), 'RIVA AI', 'logs');
-}
+import { logsDirectory, startBackend, stopBackend } from './backend-manager';
 
 // electron/tsconfig.json compiles to CommonJS, so __dirname is available natively.
 declare const __dirname: string;
@@ -67,10 +61,7 @@ function createWindow(): void {
 
 ipcMain.handle('riva:get-backend-url', () => backendBaseUrl);
 ipcMain.handle('riva:open-logs-folder', async () => {
-  const logsDir = process.env.RIVA_DATA_DIRECTORY
-    ? path.join(process.env.RIVA_DATA_DIRECTORY, 'logs')
-    : defaultLogsDirectory();
-  await shell.openPath(logsDir);
+  await shell.openPath(logsDirectory());
 });
 
 app.whenReady().then(async () => {

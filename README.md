@@ -86,7 +86,8 @@ python build_backend.py   # Produces backend/dist/riva-backend(.exe) via PyInsta
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| Startup screen never finishes | Backend didn't start | Check `backend` process output; confirm Python deps installed |
+| Startup screen never finishes (dev mode) | Backend didn't start | Check `backend` process output; confirm Python deps installed |
+| "The RIVA backend did not respond in time" (installed app) | Slow first launch, or the packaged backend was blocked/killed before it could start | Open `%APPDATA%\RIVA AI\logs\backend-launch.log` — it captures the backend's raw stdout/stderr and the exact failure, which a packaged Electron app can't otherwise show you. On a slow first launch (PyInstaller self-extracting) it may just need another try. If antivirus quarantined `riva-backend.exe`, add an exclusion for the RIVA AI install folder. If the log shows a missing DLL (e.g. `VCRUNTIME140.dll`), install the "Microsoft Visual C++ Redistributable (x64)" from Microsoft's official downloads |
 | "LLM Not configured" in the status bar | Missing `LLM_API_KEY` / `LLM_MODEL` | Edit `.env` in the repo root |
 | "Voice Text-only mode" | Missing `VOICE_API_KEY` / `VOICE_ID`, or the voice API is down | RIVA keeps working in text mode by design |
 | Microphone button shows an error | No mic found, or permission denied | Check OS microphone permissions for RIVA AI |

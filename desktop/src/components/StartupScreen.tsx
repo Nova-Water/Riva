@@ -13,8 +13,8 @@ export function StartupScreen({ error }: StartupScreenProps) {
         <>
           <p style={{ color: 'var(--riva-red)' }}>{error}</p>
           <p>
-            Check that the backend dependencies are installed and that your <code>.env</code> file exists.
-            See SETUP_WINDOWS.md for step-by-step instructions.
+            Open <code>%APPDATA%\RIVA AI\logs\backend-launch.log</code> for the exact reason the backend
+            couldn't start. See SETUP_WINDOWS.md if you need setup steps.
           </p>
         </>
       ) : (

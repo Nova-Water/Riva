@@ -142,5 +142,6 @@ RIVA data (`%APPDATA%\RIVA AI`) on uninstall unless you choose to remove it.
 
 - **`python` not found**: reinstall Python and ensure "Add to PATH" was checked, or use `py -3.11` instead of `python`.
 - **PowerShell script execution blocked**: run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, as shown in step 4.
-- **Backend fails to start**: activate the virtual environment and run `python run.py` directly inside `backend/` to see the full error.
+- **Backend fails to start (dev mode)**: activate the virtual environment and run `python run.py` directly inside `backend/` to see the full error.
+- **"The RIVA backend did not respond in time" (installed app)**: open `%APPDATA%\RIVA AI\logs\backend-launch.log` — it captures the packaged backend's raw output and the exact failure reason, since a packaged Electron app has no visible console. Common causes: a slow first launch while the bundled backend self-extracts (just wait and retry), antivirus quarantining `riva-backend.exe` (add an exclusion for the RIVA AI install folder), or a missing `VCRUNTIME140.dll` (install the Microsoft Visual C++ Redistributable x64).
 - **Microphone doesn't work**: check Windows Settings → Privacy & Security → Microphone, and make sure RIVA AI (or your terminal, in dev mode) is allowed access.
