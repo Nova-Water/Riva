@@ -6,7 +6,6 @@
   "author": "Nova Tech Ltd",
   "private": true,
   "main": "dist-electron/main.js",
-  "type": "module",
   "scripts": {
     "dev": "concurrently -k -n VITE,ELECTRON -c blue,green \"vite\" \"npm:dev:electron\"",
     "dev:electron": "tsc -p electron/tsconfig.json && cross-env NODE_ENV=development wait-on tcp:5173 && electron dist-electron/main.js",
