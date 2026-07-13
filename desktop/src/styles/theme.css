@@ -1,0 +1,34 @@
+:root {
+  --riva-bg-void: #060912;
+  --riva-bg-navy: #0a0e1a;
+  --riva-bg-panel: #10152a;
+  --riva-bg-panel-raised: #161c38;
+  --riva-surface-white: #eef2fb;
+  --riva-surface-white-dim: #c7cfe6;
+
+  --riva-cyan: #3fe4ff;
+  --riva-cyan-soft: rgba(63, 228, 255, 0.16);
+  --riva-cyan-glow: rgba(63, 228, 255, 0.55);
+  --riva-blue-metal: #3c6ff0;
+  --riva-blue-metal-dim: #274499;
+  --riva-magenta: #ff3fb0;
+  --riva-magenta-glow: rgba(255, 63, 176, 0.45);
+
+  --riva-green: #35d199;
+  --riva-amber: #ffb648;
+  --riva-red: #ff5468;
+
+  --riva-text-primary: #f1f5fd;
+  --riva-text-secondary: #97a3c4;
+  --riva-text-muted: #5c6690;
+
+  --riva-border: rgba(120, 150, 220, 0.18);
+  --riva-border-strong: rgba(63, 228, 255, 0.35);
+
+  --riva-radius-sm: 6px;
+  --riva-radius-md: 12px;
+  --riva-radius-lg: 20px;
+
+  --riva-font-sans: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+  --riva-shadow-panel: 0 12px 40px rgba(2, 4, 12, 0.55);
+}

@@ -1,0 +1,39 @@
+appId: com.novatech.riva-ai
+productName: RIVA AI
+copyright: Copyright © Nova Tech Ltd
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/**
+  - dist-electron/**
+  - package.json
+
+extraResources:
+  - from: ../backend/dist
+    to: backend
+    filter:
+      - '**/*'
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  publisherName: Nova Tech Ltd
+  artifactName: '${productName}-Setup-${version}.${ext}'
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: RIVA AI
+  deleteAppDataOnUninstall: false
+
+# NOTE: A production icon.ico (desktop/build/icon.ico) has not been supplied
+# yet. Add one before shipping a real release — electron-builder falls back
+# to a default Electron icon otherwise. See docs for asset requirements.

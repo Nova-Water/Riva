@@ -1,0 +1,84 @@
+@import './theme.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: radial-gradient(circle at 20% -10%, #131a34 0%, var(--riva-bg-void) 55%);
+  color: var(--riva-text-primary);
+  font-family: var(--riva-font-sans);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 150, 220, 0.25);
+  border-radius: 8px;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-body {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 16px;
+  padding: 16px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.panel {
+  background: linear-gradient(180deg, var(--riva-bg-panel-raised), var(--riva-bg-panel));
+  border: 1px solid var(--riva-border);
+  border-radius: var(--riva-radius-lg);
+  box-shadow: var(--riva-shadow-panel);
+}
+
+.panel-title {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--riva-text-secondary);
+  font-weight: 600;
+}
+
+.scroll-region {
+  overflow-y: auto;
+  min-height: 0;
+}
