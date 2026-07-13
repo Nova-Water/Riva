@@ -13,7 +13,9 @@ import path from 'node:path';
 
 const DEFAULT_HOST = '127.0.0.1';
 const DEFAULT_PORT = 8765;
-const HEALTH_TIMEOUT_MS = 30_000;
+// A packaged PyInstaller backend can take well over 30s to self-extract and
+// import heavy dependencies (faster-whisper, ctranslate2) on its first launch.
+const HEALTH_TIMEOUT_MS = 60_000;
 const HEALTH_POLL_INTERVAL_MS = 500;
 
 let backendProcess: ChildProcess | null = null;
